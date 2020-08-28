@@ -1,3 +1,90 @@
+body,
+html {
+  padding: 0;
+  margin: 0;
+  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+  background-color: #111;
+}
+
+.main-left {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-videos {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-right {
+  flex: 0.2;
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  border-left: 2px solid #777;
+}
+
+.main-chat-header {
+  text-align: center;
+  border-bottom: 2px solid #777;
+}
+
+.main-chat-window {
+  flex-grow: 1;
+  overflow-y: hidden;
+}
+
+.main-chat-input {
+  padding: 30px 20px;
+}
+
+#chatMessage {
+  padding: 5px;
+  width: 90%;
+  display: none;
+}
+#enterName {
+  padding: 5px;
+  width: 90%;
+}
+
+.main-controls {
+  display: flex;
+  background-color: #222;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.main-controls-block {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-controls button {
+  padding: 10px 20px;
+  border: 0;
+  outline: 0;
+  color: #eee;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.main-controls button:hover {
+  background-color: #444;
+}
+
+.main-controls button:active {
+  background-color: #555;
+}
+
 #video-grid {
   display: flex;
   justify-content: center;

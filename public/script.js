@@ -13,12 +13,12 @@ const peer = new Peer(undefined, {
   port: '3030',
 })
 
-let videoStream
+var videoStream
 
 navigator.mediaDevices
   .getUserMedia({
     video: true,
-    audio: false,
+    audio: true,
   })
   .then(stream => {
     videoStream = stream
@@ -28,6 +28,28 @@ navigator.mediaDevices
       connectToNewUser(userID, stream)
     })
   })
+
+const muteUnmute = () => {
+  const enabled = videoStream.getAudioTracks()[0].enabled
+  if (enabled) {
+    videoStream.getAudioTracks()[0].enabled = false
+    $('#muteUnmute').text('Unmute')
+  } else {
+    videoStream.getAudioTracks()[0].enabled = true
+    $('#muteUnmute').text('Mute')
+  }
+}
+
+const playStop = () => {
+  const enabled = videoStream.getVideoTracks()[0].enabled
+  if (enabled) {
+    videoStream.getVideoTracks()[0].enabled = false
+    $('#playStop').text('Play video')
+  } else {
+    videoStream.getVideoTracks()[0].enabled = true
+    $('#playStop').text('Stop video')
+  }
+}
 
 const addVideoStream = (video, stream) => {
   console.log('Adding video stream')
@@ -68,4 +90,37 @@ peer.on('call', function (call) {
       console.log('Failed to get local stream', err)
     }
   )
+})
+
+let userName
+
+$('#enterName').on('keydown', function (e) {
+  if (e.which == 13 && $(this).val().length !== 0) {
+    userName = $(this).val()
+    $(this).val('')
+    $('#chatMessage').show()
+    $(this).hide()
+  }
+})
+
+$('#chatMessage').on('keydown', function (e) {
+  if (e.which == 13 && $(this).val().length !== 0) {
+    socket.emit('message', { user: userName, msg: $(this).val() })
+    $(this).val('')
+  }
+})
+
+const scrollButtom = () => {
+  $('.main-chat-window').scrollTop($('.main-chat-window').prop('scrollHeight'))
+}
+
+const createMsg = messageObj => {
+  $('.main-chat-window').append(
+    $(`<div><div>${messageObj.user}:</div><div>${messageObj.msg}</div></div>`)
+  )
+  scrollButtom()
+}
+
+socket.on('user-message', messageObj => {
+  createMsg(messageObj)
 })

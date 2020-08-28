@@ -33,6 +33,12 @@ io.on('connection', socket => {
 
     socket.join(roomID)
     socket.to(roomID).broadcast.emit('user-conncted', userID)
+
+    socket.on('message', messageObj => {
+      console.log(messageObj.user)
+      console.log(messageObj.msg)
+      io.in(roomID).emit('user-message', messageObj)
+    })
   })
 })
 
